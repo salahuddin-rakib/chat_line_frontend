@@ -69,11 +69,11 @@ export const Registration = (props) => {
   return (
     <div className="auth-form-container">
       <h2>Register</h2>
-      {response.status === 'error' && <p>{response.message}</p>}
-      { emptyName && <p style={{color: 'red'}}>Full name is needed.</p>}
-      { emptyEmail && <p style={{color: 'red'}}>Email is needed.</p>}
-      { emptyPassword && <p style={{color: 'red'}}>Password is needed.</p>}
-      { passwordDifferent && <p style={{color: 'red'}}>Password and confirm password is not same.</p>}
+      {response.status === 'error' && <p className="error-message">{response.message}</p>}
+      { emptyName && <p className="error-message">Full name is needed.</p>}
+      { emptyEmail && <p className="error-message">Email is needed.</p>}
+      { emptyPassword && <p className="error-message">Password is needed.</p>}
+      { passwordDifferent && <p className="error-message">Password and confirm password is not same.</p>}
       <form className="register-form" onSubmit={handleSubmit}>
         <label htmlFor="name">Full name</label>
         <input

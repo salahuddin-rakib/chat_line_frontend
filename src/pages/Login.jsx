@@ -47,9 +47,9 @@ const Login = () => {
   return (<>
     <div className="auth-form-container">
       <h2>Login</h2>
-      {response.status === 'error' && <p>{response.message}</p>}
-      { emptyEmail && <p style={{color: 'red'}}>Email is needed.</p>}
-      { emptyPassword && <p style={{color: 'red'}}>Password is needed.</p>}
+      {response.status === 'error' && <p className="error-message">{response.message}</p>}
+      { emptyEmail && <p className="error-message">Email is needed.</p>}
+      { emptyPassword && <p className="error-message">Password is needed.</p>}
       <form className="login-form" onSubmit={handleSubmit}>
         <label htmlFor="email">Email</label>
         <input
