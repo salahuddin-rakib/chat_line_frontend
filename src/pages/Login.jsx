@@ -1,7 +1,9 @@
 import {useState, useEffect} from 'react';
 import {POST} from "../api/axios.jsx";
+import {useNavigate} from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
   const initialLoginInfo = {email: '', password: ''};
   const [loginInfo, setLoginInfo] = useState(initialLoginInfo);
   const [response, setResponse] = useState({status: '', message: ''});
@@ -33,35 +35,36 @@ const Login = () => {
   }
 
   return (<>
-      <div className="auth-form-container">
-        <h2>Login</h2>
-        <form className="login-form" onSubmit={handleSubmit}>
-          <label htmlFor="email">Email</label>
-          <input
-            value={loginInfo.email}
-            onChange={(e) => setLoginInfo({...loginInfo, email: e.target.value})}
-            type="email"
-            placeholder="youremail@gmail.com"
-            id="email"
-            name="email"
-          />
+    <div className="auth-form-container">
+      {response.status === 'error' && <p>{response.message}</p>}
+      <h2>Login</h2>
+      <form className="login-form" onSubmit={handleSubmit}>
+        <label htmlFor="email">Email</label>
+        <input
+          value={loginInfo.email}
+          onChange={(e) => setLoginInfo({...loginInfo, email: e.target.value})}
+          type="email"
+          placeholder="youremail@gmail.com"
+          id="email"
+          name="email"
+        />
 
-          <label htmlFor="password">Password</label>
-          <input
-            value={loginInfo.password}
-            onChange={(e) => setLoginInfo({...loginInfo, password: e.target.value})}
-            type="password"
-            placeholder="********"
-            id="password"
-            name="password"
-          />
-          <button type="submit">Log In</button>
-        </form>
-        <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Don't have an account? Register
-          here.
-        </button>
-      </div>
-    </>)
+        <label htmlFor="password">Password</label>
+        <input
+          value={loginInfo.password}
+          onChange={(e) => setLoginInfo({...loginInfo, password: e.target.value})}
+          type="password"
+          placeholder="********"
+          id="password"
+          name="password"
+        />
+        <button type="submit">Log In</button>
+      </form>
+      <button className="link-btn" onClick={() => navigate('/registration')}>Don't have an account? Register
+        here.
+      </button>
+    </div>
+  </>)
 }
 
 export default Login;

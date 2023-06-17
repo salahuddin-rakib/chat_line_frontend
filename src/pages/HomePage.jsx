@@ -2,7 +2,7 @@
 const HomePage = () => {
   return (
     <>
-      <h1 style={{backgroundColor: 'green'}}>Home page</h1>
+      <h1 style={{color: 'green'}}>Home page</h1>
     </>
   )
 }
