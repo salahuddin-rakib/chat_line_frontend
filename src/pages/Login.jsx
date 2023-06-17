@@ -29,8 +29,7 @@ const Login = () => {
         console.log("Printing response: ", response);
         window.localStorage.setItem('auth_token', response?.data?.token);
         window.localStorage.setItem('username', response?.data?.username);
-        window.location.href = `/home`
-        setLoginInfo(initialLoginInfo);
+        navigate('/home');
       } catch (error) {
         if (!error) {
           setResponse({status: 'error', message: 'No server response'})
@@ -47,11 +46,11 @@ const Login = () => {
 
   return (<>
     <div className="auth-form-container">
-      {response.status === 'error' && <p>{response.message}</p>}
       <h2>Login</h2>
+      {response.status === 'error' && <p>{response.message}</p>}
+      { emptyEmail && <p style={{color: 'red'}}>Email is needed.</p>}
+      { emptyPassword && <p style={{color: 'red'}}>Password is needed.</p>}
       <form className="login-form" onSubmit={handleSubmit}>
-        { emptyEmail && <p style={{color: 'red'}}>Email is needed.</p>}
-        { emptyPassword && <p style={{color: 'red'}}>Password is needed.</p>}
         <label htmlFor="email">Email</label>
         <input
           value={loginInfo.email}
