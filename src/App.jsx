@@ -5,32 +5,20 @@ import {authenticate} from "./util/authenticate.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import {useState} from "react";
 import {Registration} from "./pages/Registration.jsx";
+import UserMessages from "./pages/UserMessages.jsx";
 
 function App() {
   return (<>
       <div className="App">
         <BrowserRouter>
-          {
-            authenticate !== true && (
-              <Routes>
-                <Route path='/login' exact element={<Login/>}/>
-                <Route path='/registration' exact element={<Registration/>}/>
-                <Route path='/' exact element={<Login/>}/>
-              </Routes>
-            )
-          }
-          {
-            authenticate === true && (
-              <Routes>
-                {/*<Route path='/login' exact element={<Login/>} />*/}
-                {/*<Route path="/dealerships" element={(props)=>{*/}
-                {/*  return <DealershipsRenderer {...props} handleNoAuth={handleNoAuth} allowedActions={allowedActionsData}/>*/}
-                {/*}}*/}
-                {/*/>*/}
-                <Route path='/' exact element={<HomePage/>}/>
-              </Routes>
-            )
-          }
+          <Routes>
+            <Route path='/login' exact element={<Login/>}/>
+            <Route path='/registration' exact element={<Registration/>}/>
+            <Route path='/home' exact element={<HomePage/>}/>
+            <Route path='/users/messages/:id' exact element={<UserMessages isAdmin={true}/>}/>
+            <Route path='/messages/:id' exact element={<UserMessages isAdmin={false}/>}/>
+            <Route path='/' exact element={<HomePage/>}/>
+          </Routes>
         </BrowserRouter>
       </div>
     </>
