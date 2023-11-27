@@ -29,7 +29,7 @@ label {
 
 input {
   margin: 0.5rem 0;
-  padding: 1rem;
+  padding: 5px;
   border: none;
   border-radius: 10px;
 }
@@ -37,7 +37,7 @@ input {
 button {
   border: none;
   background-color: white;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   cursor: pointer;
   color: #7439db;
@@ -53,6 +53,28 @@ button {
   color: red;
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+}
+.form input[type="text"] {
+  width: 300px;
+  height: 30px;
+  margin-bottom: 10px;
+}
+.form input[type="submit"] {
+  padding: 5px;
+  height: 30px;
+  border: none;
+  background-color: #187dbc;
+  color: #fff;
+}
+.form input[type="submit"]:hover {
+  border: #fff;
+  cursor: pointer;
+  background-color: #000;
+  color: #fff;
+}
 .chatWindow {
   display: grid;
   grid-column-start: 2;
@@ -79,6 +101,8 @@ button {
   margin-top: 60px;
   margin-bottom: 10px;
   max-height: 400px;
+  min-width: 400px;
+  max-width: 500px;
   overflow: scroll;
   scroll-behavior: smooth;
 }
@@ -131,8 +155,10 @@ button {
 }
 
 .message {
-  font-size: 10px !important;
+  font-size: 15px !important;
   color: #7439db;
+  max-width:300px;
+  word-wrap:break-word;
 }
 
 .other .msg {
@@ -221,4 +247,18 @@ button {
   font-family: FontAwesome;
   display: inline-block;
   margin-right: 4px;
+}
+
+input.textarea {
+  width: 60%;
+  height: 50px;
+  background-color: #bebdbd;
+  border: none;
+  outline: none;
+  padding-left: 55px;
+  padding-right: 55px;
+  color: #666;
+  font-weight: 400;
+  max-width:300px;
+  word-wrap:break-word;
 }

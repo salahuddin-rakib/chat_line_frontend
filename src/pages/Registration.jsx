@@ -122,7 +122,7 @@ export const Registration = (props) => {
           id="phone_number"
           name="phone_number"
         />
-        <button type="submit">Log In</button>
+        <button type="submit">Sign up</button>
       </form>
       <button className="link-btn" onClick={() => navigate('/login')}>Already have an account? Login here.</button>
     </div>

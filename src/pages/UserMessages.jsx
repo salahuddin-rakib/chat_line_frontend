@@ -8,12 +8,13 @@ const UserMessages = (props) => {
   const {isAdmin} = props
   const navigate = useNavigate();
   const [messages, setMessages] = useState([])
+  const [tempMessage, setTempMessage] = useState('')
   const [limit, setLimit] = useState(10)
 
   const getMessages = async () => {
     try {
       const response = await GET(`/users/${id}/messages?page=${0}&limit=${limit}`);
-      setMessages(response?.data?.messages);
+      setMessages(response?.data?.response);
     } catch (error) {
       if (!error) {
         message.error('Error happened!');
@@ -38,6 +39,36 @@ const UserMessages = (props) => {
     }
   }
 
+  const sendMessage = async () => {
+    if (tempMessage !== '') {
+      try {
+        const response = await POST(`/users/${id}/create_message`, {message: tempMessage});
+        setMessages(response?.data?.response);
+        setTempMessage('');
+      } catch (error) {
+        if (!error) {
+          message.error('Error happened!');
+        } else if (error.response?.status === 401) {
+          message.error('Unauthorized.');
+          navigate('/login');
+        } else {
+          message.error('Error happened!');
+        }
+      }
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setTempMessage('');
+    sendMessage();
+    event.target.reset();
+  };
+
+  const handleChange = (event) => {
+    setTempMessage(event.target.value);
+  };
+
   useEffect(() => {
     getMessages();
   }, [])
@@ -51,30 +82,38 @@ const UserMessages = (props) => {
                   onClick={increasePageLimit}>See more</Button>
         )}
       </div>
-      <div style={{width: '300px', float: 'left'}}>
-        <div className="chatWindow">
-          <ul className="chat" id="chatList">
-            {messages && messages.map((message) => (
-              // <div key={message.id} style={{marginBottom: '5px'}}>{message.text}</div>
-              <div key={message.id}>
-                {((isAdmin && message.sender_type === 'admin') || (id === message.sender_id)) ? (
-                  <li className="self">
-                    <div className="msg">
-                      <p>{message.sender}</p>
-                      <div className="message"> {message.text}</div>
-                    </div>
-                  </li>
-                ) : (
-                  <li className="other">
-                    <div className="msg">
-                      <p>{message.sender}</p>
-                      <div className="message"> {message.text} </div>
-                    </div>
-                  </li>
-                )}
-              </div>
-            ))}
-          </ul>
+      <div className="chatWindow">
+        <ul className="chat" id="chatList">
+          {messages && messages.map((message) => (
+            // <div key={message.id} style={{marginBottom: '5px'}}>{message.text}</div>
+            <div key={message.id}>
+              {((isAdmin && message.sender_type === 'admin') || (id === message.sender_id)) ? (
+                <li className="self">
+                  <div className="msg">
+                    <p>{message.sender}</p>
+                    <div className="message"> {message.text}</div>
+                  </div>
+                </li>
+              ) : (
+                <li className="other">
+                  <div className="msg">
+                    <p>{message.sender}</p>
+                    <div className="message"> {message.text} </div>
+                  </div>
+                </li>
+              )}
+            </div>
+          ))}
+        </ul>
+        <div className="chatInputWrapper">
+          <form onSubmit={handleSubmit}>
+            <input
+              className="textarea input"
+              type="text"
+              placeholder="Enter your message..."
+              onChange={handleChange}
+            />
+          </form>
         </div>
       </div>
     </div>

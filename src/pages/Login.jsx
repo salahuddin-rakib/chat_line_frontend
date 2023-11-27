@@ -14,7 +14,14 @@ const Login = () => {
     setResponse({status: '', message: ''});
   }, [loginInfo])
 
-  const handleSubmit = async (e) => {
+  const setAuthData = async (data) => {
+    await window.localStorage.clear();
+    await window.localStorage.setItem('authToken', data?.token);
+    await window.localStorage.setItem('userName', data?.username);
+    return true;
+  }
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (loginInfo.email === '') {
       setEmptyEmail(true);
@@ -25,11 +32,13 @@ const Login = () => {
       setEmptyEmail(false);
       setEmptyPassword(false);
       try {
-        const response = await POST(`/users/login`, {...loginInfo});
-        console.log("Printing response: ", response);
-        window.localStorage.setItem('auth_token', response?.data?.token);
-        window.localStorage.setItem('username', response?.data?.username);
-        navigate('/home');
+        POST(`/users/login`, {...loginInfo}).then((response) => {
+          if (response.status === 200) {
+            setAuthData(response?.data).then(navigate('/'))
+          } else {
+            setResponse({status: 'error', message: 'Login Failed.'})
+          }
+        })
       } catch (error) {
         if (!error) {
           setResponse({status: 'error', message: 'No server response'})
@@ -48,8 +57,8 @@ const Login = () => {
     <div className="auth-form-container">
       <h2>Login</h2>
       {response.status === 'error' && <p className="error-message">{response.message}</p>}
-      { emptyEmail && <p className="error-message">Email is needed.</p>}
-      { emptyPassword && <p className="error-message">Password is needed.</p>}
+      {emptyEmail && <p className="error-message">Email is needed.</p>}
+      {emptyPassword && <p className="error-message">Password is needed.</p>}
       <form className="login-form" onSubmit={handleSubmit}>
         <label htmlFor="email">Email</label>
         <input

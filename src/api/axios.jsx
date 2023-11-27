@@ -1,7 +1,7 @@
 import Axios from 'axios';
 
 const BASE_URL = 'http://localhost:4000';
-const auth_token = window.localStorage.getItem('auth_token');
+const auth_token = window.localStorage.getItem('authToken');
 
 export const GET = (url) => {
   return Axios.get(`${BASE_URL}${url}`, {
@@ -11,7 +11,6 @@ export const GET = (url) => {
     }
   })
 }
-
 
 export const DELETE = (url) => {
   return Axios.delete(`${BASE_URL}${url}`, {
@@ -39,7 +38,6 @@ export const PUT = (url, data) => {
     }
   })
 }
-
 
 export const PATCH = (url, data) => {
   return Axios.patch(`${BASE_URL}${url}`, data, {
